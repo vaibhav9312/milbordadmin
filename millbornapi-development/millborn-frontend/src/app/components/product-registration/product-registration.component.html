@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="text-center">Product Registration</h3> <br>
+    </div>
+</div>
+
+<form [formGroup]="productreg" (ngSubmit)="doRegisterProduct(productreg)" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-lg-8">
+            <h4>Product Information</h4>
+            <div class="card panel">
+                <div class="card-block">
+                    <div class="form-group">
+                        <label for="producttitle">Product Title</label>
+                        <input type="text" class="form-control" formControlName="ProductTitle" placeholder="Title of the Product ..." [ngClass]="{'error':!productreg.controls['ProductTitle'].valid}" />
+                    </div>
+                    <div class="form-group">
+                        <label>Product Details</label>
+                        <ckeditor debounce="500" [config]="{uiColor: '#1D4C6F', height:400}" formControlName="ProductDescription">
+                        </ckeditor>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <h4>Publish</h4>
+            <div class="card panel">
+                <div class="card-block">
+                    <!-- <button class="btn btn-primary" type="submit">Save Draft</button> -->
+                    <button class="btn btn-primary" type="submit" [disabled]="!productreg.valid">{{buttonText }}</button>
+                    <button class="btn btn-success" (click)="isPublish=true" type="submit">{{buttonText2 }}  </button>
+                    <!--  <button class="btn btn-success">Publish</button>
+                    <label [hidden]="productreg.valid" style="color:red"> Please fill the highlighted fields </label> -->
+                </div>
+            </div>
+
+            <h4>Select Categories</h4>
+            <div class="card panel">
+                <div class="card-block">
+                    <div class="form-group">
+                        <ss-multiselect-dropdown [options]="myOptions" [texts]="myTextsGroup" [settings]="mySettings" formControlName="GroupId" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
+                    </div>
+                    <div class="form-group">
+                        <ss-multiselect-dropdown *ngIf="groupSelected" [options]="myGroupOptions" [texts]="myTextsSubGroup" [settings]="mySettings" formControlName="SubGroupId" (ngModelChange)="onChangeSubGroup($event)"></ss-multiselect-dropdown>
+                    </div>
+                    <div class="form-group">
+                        <ss-multiselect-dropdown *ngIf="subGroupSelected" [options]="myCategoryOptions" [texts]="myTextsCategory" [settings]="mySettings" formControlName="CategoryId" (ngModelChange)="onChangeCategoryOptions($event)"></ss-multiselect-dropdown>
+                    </div>
+
+                    <div class="form-group">
+                        <ss-multiselect-dropdown *ngIf="categorySelected" [options]="myProductSubCategory" [texts]="myTextsSubCategory" [settings]="mySettings" formControlName="SubCategoryId"></ss-multiselect-dropdown>
+                    </div>
+
+                    <div class="form-group">
+                        <rl-tag-input formControlName="Tags" placeholder="Write Tags & hit Enter"></rl-tag-input>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" formControlName="Price" placeholder="Enter  Price ..." [ngClass]="{'error':!productreg.controls['Price'].valid}" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" formControlName="MinimumQty" placeholder="Minimum Qty to Order ..." [ngClass]="{'error':!productreg.controls['MinimumQty'].valid}" />
+                    </div>
+
+                </div>
+            </div>
+
+            <h4>Product Image</h4>
+            <div class="card panel">
+                <div class="card-block">
+                    <!-- <input id="photo" type="file" /> -->
+                    <input type="file" ng2FileSelect [uploader]="uploaderProfileImage"> <br>
+                    <span *ngIf="productreg.controls['ProductImage'].value">
+                        <a href="/{{productreg.controls['ProductImage'].value}}" target="_blank">{{productreg.controls['ProductImage'].value}}</a>
+                    </span>
+                </div>
+            </div>
+
+            <h4>Product Gallery</h4>
+            <div class="card panel">
+                <div class="card-block">
+                    <input type="file" ng2FileSelect [uploader]="uploaderGallery" multiple>
+                    <div>
+                        <span *ngFor="let gi of uploaderGallery.queue">{{gi.file.name}} <a (click)="deleteFromList('gallery', gi)"><i class="fa fa-trash"></i></a> <br></span>
+                    </div>
+                    <div>
+                        <br>
+                        <h5>Previously Uploaded</h5>
+                        <span *ngFor="let gi of existingGallery"><a href="/{{gi.DocName}}" target="_blank">{{gi.DocName}}</a> <a (click)="updateExistingGalleryList('gallery', gi)"><i class="fa fa-trash"></i></a> <br></span>
+                    </div>
+                </div>
+            </div>
+
+            <h4>Other Documents</h4>
+            <div class="card panel">
+                <div class="card-block">
+                    <input type="file" ng2FileSelect [uploader]="uploaderDocuments" multiple>
+                    <div>
+                        <span *ngFor="let gi of uploaderDocuments.queue">{{gi.file.name}} <a (click)="deleteFromList('documents', gi)"><i class="fa fa-trash"></i></a> <br></span>
+                    </div>
+                    <div>
+                        <br>
+                        <h5>Previously Uploaded</h5>
+                        <span *ngFor="let gi of existingDocuments"><a href="/{{gi.DocName}}" target="_blank">{{gi.DocName}}</a> <a (click)="updateExistingGalleryList('documents', gi)"><i class="fa fa-trash"></i></a> <br></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>

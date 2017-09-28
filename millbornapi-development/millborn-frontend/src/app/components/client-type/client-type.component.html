@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-md-4">
+        <h3 class="text-center">Create New Client Types</h3> <br>
+        <form [formGroup]="clientType" (ngSubmit)="createClientType(clientType)" class="ng-untouched ng-pristine ng-invalid">
+            <fieldset class="form-group">
+                <label class="form-control-label" for="Client Type">
+                    Client Type
+                </label>
+                <input class="form-control ng-untouched ng-pristine ng-invalid" placeholder="Enter ClientType" type="text" formControlName="ClientType">
+            </fieldset>
+            <fieldset class="form-group">
+                <label class="form-control-label" for="Description">
+                    Description
+                </label>
+                <textarea class="form-control ng-untouched ng-pristine ng-invalid" placeholder="Enter Description" formControlName="ClientTypeDescription"></textarea>
+            </fieldset>
+
+            <div class="block"></div>
+            <button class="btn btn-primary" type="submit">{{buttonText}}</button>
+        </form>
+
+
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-7">
+        <h3 class="text-center">List of Client Types</h3> <br>
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Client Type</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ct of clienttypes; let idx = index">
+                    <td>{{idx+1}}</td>
+                    <td>{{ct.ClientType}}</td>
+                    <td>{{ct.ClientTypeDescription}}</td>
+                    <td>
+                        <button class="btn btn-danger" (click)="deleteClick(ct.ClientTypeId)">Delete</button>
+                        <!-- <button class="btn btn-danger" (confirm-click)="test" appConfirm>Delete</button> -->
+                        <button class="btn btn-warning btn-small" (click)="editClick(ct)">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

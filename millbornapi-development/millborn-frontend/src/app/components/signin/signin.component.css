@@ -1,0 +1,29 @@
+.bg-1 {
+    background-image: url(http://decima.nyasha.me/bg1.df393a655db339405689.jpg);
+}
+
+.bg-cover {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.min-height-100 {
+    min-height: 100%;
+}
+
+.h-100 {
+    height: 100%!important;
+}
+
+.h-100[_ngcontent-c0] {
+    height: 800px !important;
+}
+
+.logoimg {
+    width: 70%;
+}
+
+.mb-1 {
+    margin-bottom: 2.25rem!important;
+}

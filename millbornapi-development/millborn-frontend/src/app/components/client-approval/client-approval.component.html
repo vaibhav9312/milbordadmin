@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="text-center">Client Approval</h3> <br>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="card panel panel-default ks-solid ks-widget ks-widget-info" *ngIf="clientDetails">
+            <h4 class="card-header">Client Information</h4>
+            <div class="card-block">
+                <div class="ks-item">
+                    <span>Client : </span>
+                    <span><b>{{clientDetails.FirmName + " ( "+ clientDetails.OwnerName +" )" }}</b></span>
+                </div>
+                <div class="ks-item">
+                    <span>Client Code : </span>
+                    <span><b> {{clientDetails.ClientCode}} </b></span>
+                </div>
+                <div class="ks-item">
+                    <span>Last Modified At : </span>
+                    <span><b>{{clientDetails.ModifiedAt | date:'yyyy-MM-dd HH:mm'}}</b></span>
+                </div>
+                <div class="ks-item">
+                    <span>Address : </span>
+                    <span><b>{{ clientDetails.FullAddress}}</b></span>
+                </div>
+                <div class="ks-item">
+                    <span>GST Name : </span>
+                    <span><b>{{ clientDetails.GSTName}}</b></span>
+                </div>
+                <div class="ks-item">
+                    <span>GST Number : </span>
+                    <span><b>{{ clientDetails.GSTNumber}}</b></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<br><br>
+
+<form [formGroup]="approvalForm" (ngSubmit)="doVerify(approvalForm)">
+    <div class="row">
+
+        <div class="col-lg-6">
+
+            <h4>Verification Form</h4>
+
+            <div class="card panel">
+                <div class="card-block">
+                    <div class="form-group">
+                        <label for="status">Approval Status</label> <br/>
+                        <label class="custom-control custom-radio">
+                            <input class="custom-control-input" id="rdappstatus" value="approved"  type="radio" formControlName="approvalStatus">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Approve</span>
+                          </label>
+
+                        <label class="custom-control custom-radio">
+                              <input class="custom-control-input" id="rdappstatus" value="rejected" type="radio" formControlName="approvalStatus">
+                              <span class="custom-control-indicator"></span>
+                              <span class="custom-control-description">Reject</span>
+                            </label>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="comments">Verification Comments</label>
+                        <textarea class="form-control" formControlName="comments" cols="30" rows="5" [ngClass]="{'error':!approvalForm.controls['comments'].valid}"></textarea>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit" [disabled]="!approvalForm.valid">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

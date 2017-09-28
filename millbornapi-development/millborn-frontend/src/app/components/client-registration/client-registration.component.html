@@ -1,0 +1,158 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="text-center">Client Registration</h3> <br>
+    </div>
+</div>
+
+<form [formGroup]="clientreg" (ngSubmit)="doRegister(clientreg)">
+    <div class="row">
+
+        <div class="col-lg-6">
+
+            <h4>Basic Information</h4>
+
+            <div class="card panel">
+                <div class="card-block">
+                    <div class="form-group">
+                        <label for="clienttypeid">Client Type</label>
+                        <select class="form-control" formControlName="ClientTypeId" (change)="updateMainItems()">
+                           <option *ngFor="let ct of clienttypes" [ngValue]="ct.ClientTypeId"> {{ ct.ClientType }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="firmname">Firm Name</label>
+                        <input type="text" class="form-control" formControlName="FirmName" [ngClass]="{'error':!clientreg.controls['FirmName'].valid}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ownername">Owner Name</label>
+                        <input type="text" class="form-control" formControlName="OwnerName" [ngClass]="{'error':!clientreg.controls['OwnerName'].valid}" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobilenumber">Mobile Number</label>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" formControlName="MobileNumber" [ngClass]="{'error':!clientreg.controls['MobileNumber'].valid}" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" (change)="setWhatsappNumber('MobileNumber', $event)">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Is WhatsApp Number?</span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mobilenumber">Alternate Number</label>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" formControlName="AlterNateNumber" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" (change)="setWhatsappNumber('AlterNateNumber', $event)" />
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">Is WhatsApp Number?</span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="whatsappnum">WhatsApp Number</label>
+                        <input type="text" class="form-control" formControlName="WhatsAppNumber" [ngClass]="{'error':!clientreg.controls['WhatsAppNumber'].valid}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="text" class="form-control" formControlName="Email" [ngClass]="{'error':!clientreg.controls['Email'].valid}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="gstnum">GST Number</label>
+                        <input type="text" class="form-control" formControlName="GSTNumber" [(ngModel)]="GSTNumber" (change)="setGSTValidation()" />
+                    </div>
+                    <div for="gstnumber" [hidden]="!GSTNumber">
+                        <div class="form-group">
+                            <label for="GSTName">Name</label>
+                            <input type="text" class="form-control" formControlName="GSTName" [ngClass]="{'error':!clientreg.controls['GSTName'].valid}" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="GSTAddress">Address</label>
+                            <input type="text" class="form-control" formControlName="GSTAddress" [ngClass]="{'error':!clientreg.controls['GSTAddress'].valid}" />
+                        </div>
+                    </div>
+                    <div class="form-group" [hidden]="(mainItemsList.length == 0)">
+                        <label for="">Main Items Dealing With</label>
+                        <select class="form-control error" multiple="multiple" size="5" formControlName="MainItems">
+                            <option *ngFor="let mi of mainItemsList" [ngValue]="mi.MainItemsId">{{mi.MainItemName}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="othermainitems">Other Main Items</label>
+                        <input type="text" class="form-control" formControlName="OtherMainItem" />
+                    </div>
+
+                    <div class="block"></div>
+                    <button class="btn btn-primary" type="submit" [disabled]="!clientreg.valid">Submit</button>
+                    <label [hidden]="clientreg.valid" style="color:red"> Please fill the highlighted fields </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <h4>Address Information</h4>
+            <div class="card panel">
+                <div class="card-block">
+                    <div class="form-group">
+                        <label for="CountryId">Select Country</label>
+                        <select class="form-control" formControlName="CountryId" (change)="getStateByCountry()">
+                            <option *ngFor="let con of countrylist" [ngValue]="con.CountryId"> {{ con.CountryName }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="StateId">Select State</label>
+                        <select class="form-control" formControlName="StateId" (change)="getCityByState()">
+                            <option *ngFor="let st of statelist" [ngValue]="st.StateId"> {{ st.StateName }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="CityId">Select City</label>
+                        <select class="form-control" formControlName="CityId">
+                            <option *ngFor="let city of citylist" [ngValue]="city.CityId"> {{ city.CityName }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="district">District</label>
+                        <input type="text" class="form-control" formControlName="District" [ngClass]="{'error':!clientreg.controls['District'].valid}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="plotno">Plot Number</label>
+                        <input type="text" class="form-control" formControlName="HouseNumber" [ngClass]="{'error':!clientreg.controls['HouseNumber'].valid}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="streetname">Street Name</label>
+                        <input type="text" class="form-control" formControlName="StreetName" [ngClass]="{'error':!clientreg.controls['StreetName'].valid}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="area">Area</label>
+                        <input type="text" class="form-control" formControlName="Area" [ngClass]="{'error':!clientreg.controls['Area'].valid}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="pincode">Pincode</label>
+                        <input type="text" class="form-control" formControlName="Pincode" [ngClass]="{'error':!clientreg.controls['Pincode'].valid}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="landmark">Landmark</label>
+                        <input type="text" class="form-control" formControlName="Landmark" [ngClass]="{'error':!clientreg.controls['Landmark'].valid}" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
